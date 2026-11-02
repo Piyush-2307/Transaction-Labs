@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: transaction-app-postgres
+    environment:
+      POSTGRES_DB: account_transferApp
+      POSTGRES_USER: transaction
+      POSTGRES_PASSWORD: transaction
+    ports:
+      - "5432:5432"
+    volumes:
+      - transaction_app_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  transaction_app_postgres_data:
