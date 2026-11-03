@@ -10,9 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TransferService {
     private final AccountRepository accountRepository;
+    private final TransferAuditService transferAuditService;
 
-    public TransferService(AccountRepository accountRepository){
+    public TransferService(AccountRepository accountRepository, TransferAuditService transferAuditService){
         this.accountRepository = accountRepository;
+        this.transferAuditService = transferAuditService;
     }
 
     @Transactional
@@ -28,6 +30,7 @@ public class TransferService {
         }
 
         fromAccount.setBalance(fromAccount.getBalance().subtract(request.amount()));
+        transferAuditService.record();
         toAccount.setBalance(toAccount.getBalance().add(request.amount()));
 
         return new TransferResponse(
