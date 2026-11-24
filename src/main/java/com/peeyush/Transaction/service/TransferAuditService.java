@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 public class TransferAuditService {
     private final TransferAuditRepository auditRepository;
@@ -17,6 +19,6 @@ public class TransferAuditService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void record(){
-        auditRepository.save(new TransferAudit("Transfer attempted"));
+        auditRepository.save(new TransferAudit("Transfer attempted", LocalDateTime.now()));
     }
 }

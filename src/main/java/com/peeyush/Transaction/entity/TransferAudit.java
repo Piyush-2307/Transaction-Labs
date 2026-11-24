@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -18,7 +20,10 @@ public class TransferAudit {
 
     private String message;
 
-    public TransferAudit(String message){
+    private LocalDateTime time;
+
+    public TransferAudit(String message, LocalDateTime time){
         this.message = message;
+        this.time = time;
     }
 }
