@@ -1,6 +1,7 @@
 package com.peeyush.Transaction.service;
 
 import com.peeyush.Transaction.entity.Account;
+import com.peeyush.Transaction.exception.AccountNotFoundException;
 import com.peeyush.Transaction.repository.AccountRepository;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,8 @@ public class IsolationService {
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void readAccountTwice(Long id){
         Account read1 = accountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Account1 not found"));
+                .orElseThrow(() -> new AccountNotFoundException
+                        ("Account1 not found"));
 
         System.out.println("First read : " + read1.getBalance());
 
@@ -36,7 +38,8 @@ public class IsolationService {
         entityManager.refresh(read1);
 
         Account read2 = accountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Account2 not found"));
+                .orElseThrow(() -> new AccountNotFoundException
+                        ("Account2 not found"));
 
         System.out.println("Second read : " + read2.getBalance());
     }

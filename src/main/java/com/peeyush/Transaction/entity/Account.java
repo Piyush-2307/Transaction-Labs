@@ -25,6 +25,9 @@ public class Account {
     @Column(name = "balance")
     private BigDecimal balance;
 
+    @Version
+    private Long version;
+
     public Account(String ownerName, BigDecimal balance){
         this.ownerName = ownerName;
         this.balance = balance;

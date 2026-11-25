@@ -3,6 +3,7 @@ package com.peeyush.Transaction.service;
 import com.peeyush.Transaction.dto.account.AccountResponse;
 import com.peeyush.Transaction.dto.account.CreateAccountRequest;
 import com.peeyush.Transaction.entity.Account;
+import com.peeyush.Transaction.exception.AccountNotFoundException;
 import com.peeyush.Transaction.mapper.AccountMapper;
 import com.peeyush.Transaction.repository.AccountRepository;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,6 @@ public class AccountService {
 
     public AccountResponse findAccount(Long id){
         return accountMapper.toResponse(accountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("There is no account")));
+                .orElseThrow(() -> new AccountNotFoundException("There is no account")));
     }
 }

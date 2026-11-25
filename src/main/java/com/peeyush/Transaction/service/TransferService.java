@@ -3,6 +3,8 @@ package com.peeyush.Transaction.service;
 import com.peeyush.Transaction.dto.transfer.TransferRequest;
 import com.peeyush.Transaction.dto.transfer.TransferResponse;
 import com.peeyush.Transaction.entity.Account;
+import com.peeyush.Transaction.exception.AccountNotFoundException;
+import com.peeyush.Transaction.exception.InsufficientBalanceException;
 import com.peeyush.Transaction.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +22,13 @@ public class TransferService {
     @Transactional
     public TransferResponse transfer(TransferRequest request){
         Account fromAccount = accountRepository.findById(request.fromAccountId())
-                .orElseThrow(() -> new RuntimeException("Source account not found"));
+                .orElseThrow(() -> new AccountNotFoundException("Source account not found"));
 
         Account toAccount = accountRepository.findById(request.toAccountId())
-                .orElseThrow(() -> new RuntimeException("Destination account not found"));
+                .orElseThrow(() -> new AccountNotFoundException("Destination account not found"));
 
         if(fromAccount.getBalance().compareTo(request.amount()) < 0){
-            throw new RuntimeException("Insufficient balance");
+            throw new InsufficientBalanceException("Insufficient balance");
         }
 
         fromAccount.setBalance(fromAccount.getBalance().subtract(request.amount()));
